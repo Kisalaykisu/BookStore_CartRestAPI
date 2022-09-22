@@ -18,7 +18,7 @@ public class CartController {
     ICartService cartService;
     //Add Cart Details to the UserID
     @PostMapping("/insert")
-    public ResponseEntity<ResponseDTO> addCartDetails(@RequestBody CartDTO cartDTO){
+    public ResponseEntity<ResponseDTO> addCartDetails(@RequestBody CartDTO cartDTO) {
         Cart cartDetails = cartService.addCartData(cartDTO);
         ResponseDTO responseDTO = new ResponseDTO("Cart Details Added", cartDetails);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
@@ -37,11 +37,18 @@ public class CartController {
         ResponseDTO responseDTO = new ResponseDTO("Cart Details with Cart ID: "+cartId, cartDetails);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+    //Get Cart Data by CartId(MicroService)
+    @GetMapping("/Data/{cartId}")
+    public Cart getCartDataByCartID(@PathVariable Long cartId){
+        Cart cartDetails = cartService.getCartDataByCartId(cartId);
+        return cartDetails;
+    }
     //Get Cart Data by UserId
     @GetMapping("/UserCart/{userId}")
     public ResponseEntity<ResponseDTO> getCartDataByUserID(@PathVariable Long userId){
         List<Cart> userCartDetails = cartService.getCartDetailsByUserId(userId);
-        ResponseDTO responseDTO = new ResponseDTO("Cart Details with User ID: "+userId, userCartDetails);
+        ResponseDTO responseDTO = new ResponseDTO("Cart Details with UserData ID: "+userId, userCartDetails);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
     //Get Cart Data by Token
